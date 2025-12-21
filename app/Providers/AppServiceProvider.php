@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Principle;
+use App\Models\Team;
 use App\Policies\PrinciplePolicy;
+use App\Policies\TeamPolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Principle::class => PrinciplePolicy::class,
+        Team::class => TeamPolicy::class,
     ];
 
     /**
@@ -46,6 +49,17 @@ class AppServiceProvider extends ServiceProvider
         Principle::deleted(function () {
             \Cache::forget('principles.active');
             \Cache::forget('principles.stats');
+        });
+
+        // Clear team cache when a team member is saved or deleted
+        Team::saved(function () {
+            \Cache::forget('team.active');
+            \Cache::forget('team.stats');
+        });
+
+        Team::deleted(function () {
+            \Cache::forget('team.active');
+            \Cache::forget('team.stats');
         });
     }
 

@@ -4,7 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
+/**
+ * Team Model
+ * 
+ * Represents team members with support for sorting, activation status,
+ * and media management.
+ */
 class Team extends Model
 {
     use HasFactory;
@@ -17,9 +24,10 @@ class Team extends Model
     protected $fillable = [
         'image',
         'name',
-        'role',
+        'position',
         'location',
-        'featured',
+        'is_active',
+        'sort_order',
     ];
 
     /**
@@ -28,6 +36,59 @@ class Team extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'featured' => 'boolean',
+        'is_active' => 'boolean',
+        'sort_order' => 'integer',
     ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [];
+
+    /**
+     * Get the default values for attributes.
+     *
+     * @return array
+     */
+    protected $attributes = [
+        'is_active' => true,
+        'sort_order' => 0,
+    ];
+
+    /**
+     * Scope a query to only include active team members.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * Scope a query to order team members by sort_order.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeOrdered(Builder $query): Builder
+    {
+        return $query->orderBy('sort_order', 'asc');
+    }
+
+    /**
+     * Get the image URL attribute.
+     *
+     * @return string|null
+     */
+    public function getImageUrlAttribute(): ?string
+    {
+        if ($this->image) {
+            return asset('storage/' . $this->image);
+        }
+        return null;
+    }
 }
