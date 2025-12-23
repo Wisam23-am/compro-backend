@@ -27,14 +27,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
  * No authentication required.
  */
 Route::prefix('principles')->name('api.principles.')->group(function () {
+    // Get principle statistics (must be before /{id} route)
+    Route::get('/stats/overview', [PrincipleController::class, 'stats'])->name('stats');
+
     // Get all active principles
     Route::get('/', [PrincipleController::class, 'index'])->name('index');
 
     // Get a specific principle by ID
     Route::get('/{id}', [PrincipleController::class, 'show'])->name('show');
-
-    // Get principle statistics
-    Route::get('/stats/overview', [PrincipleController::class, 'stats'])->name('stats');
 });
 
 /**

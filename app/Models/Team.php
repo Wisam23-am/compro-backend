@@ -81,14 +81,27 @@ class Team extends Model
 
     /**
      * Get the image URL attribute.
+     * Handles both local storage paths and external URLs.
      *
      * @return string|null
      */
     public function getImageUrlAttribute(): ?string
     {
-        if ($this->image) {
-            return asset('storage/' . $this->image);
+        if (!$this->image) {
+            return null;
         }
-        return null;
+
+        // If it's already a full URL (http:// or https://), return as is
+        if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
+            return $this->image;
+        }
+
+        // If it starts with 'storage/', remove it to avoid duplication
+        $imagePath = str_starts_with($this->image, 'storage/')
+            ? substr($this->image, 8) // Remove 'storage/' prefix
+            : $this->image;
+
+        // Generate full URL for local storage
+        return asset('storage/' . $imagePath);
     }
 }

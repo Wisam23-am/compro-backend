@@ -91,7 +91,17 @@ class Principle extends Model
      */
     public function getImageUrlAttribute()
     {
-        return $this->image ? asset('storage/' . $this->image) : null;
+        if (!$this->image) {
+            return null;
+        }
+
+        // If it's already a full URL (http:// or https://), return as is
+        if (preg_match('/^https?:\/\//', $this->image)) {
+            return $this->image;
+        }
+
+        // Otherwise, it's a local file, prepend storage path
+        return asset('storage/' . $this->image);
     }
 
     /**
@@ -101,7 +111,17 @@ class Principle extends Model
      */
     public function getIconUrlAttribute()
     {
-        return $this->icon ? asset('storage/' . $this->icon) : null;
+        if (!$this->icon) {
+            return null;
+        }
+
+        // If it's already a full URL (http:// or https://), return as is
+        if (preg_match('/^https?:\/\//', $this->icon)) {
+            return $this->icon;
+        }
+
+        // Otherwise, it's a local file, prepend storage path
+        return asset('storage/' . $this->icon);
     }
 
     /**
