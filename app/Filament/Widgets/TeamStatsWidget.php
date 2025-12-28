@@ -14,7 +14,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
  */
 class TeamStatsWidget extends BaseWidget
 {
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 3;
 
     protected static ?string $pollingInterval = '30s';
 

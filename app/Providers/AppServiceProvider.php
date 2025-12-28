@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Award;
 use App\Models\Principle;
 use App\Models\Team;
+use App\Observers\AwardObserver;
+use App\Policies\AwardPolicy;
 use App\Policies\PrinciplePolicy;
 use App\Policies\TeamPolicy;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     protected $policies = [
         Principle::class => PrinciplePolicy::class,
         Team::class => TeamPolicy::class,
+        Award::class => AwardPolicy::class,
     ];
 
     /**
@@ -39,6 +43,9 @@ class AppServiceProvider extends ServiceProvider
 
         // Register policies
         $this->registerPolicies();
+
+        // Register observers
+        Award::observe(AwardObserver::class);
 
         // Clear principle cache when a principle is saved or deleted
         Principle::saved(function () {

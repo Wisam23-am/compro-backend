@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AwardController;
 use App\Http\Controllers\Api\PrincipleController;
 use App\Http\Controllers\Api\TeamController;
 use Illuminate\Http\Request;
@@ -52,4 +53,18 @@ Route::prefix('team')->name('api.team.')->group(function () {
 
     // Get team statistics
     Route::get('/stats/overview', [TeamController::class, 'stats'])->name('stats');
+});
+
+/**
+ * Public Award API Endpoints
+ * 
+ * These endpoints are publicly accessible and return active awards.
+ * No authentication required.
+ */
+Route::prefix('awards')->name('api.awards.')->group(function () {
+    // Get all active awards (ordered by sort_order)
+    Route::get('/', [AwardController::class, 'index'])->name('index');
+
+    // Get featured awards only
+    Route::get('/featured', [AwardController::class, 'featured'])->name('featured');
 });

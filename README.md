@@ -43,6 +43,7 @@ A comprehensive backend system designed to power company profile websites. Built
 | ---------------- | --------------------------------------- | -------------- |
 | **Principles**   | Company values & principles management  | ✅ Ready       |
 | **Team**         | Team members & organizational structure | ✅ Ready       |
+| **Awards**       | Company awards & achievements           | ✅ Ready       |
 | **Projects**     | Portfolio & case studies                | 🚧 Coming Soon |
 | **Services**     | Service offerings management            | 🚧 Coming Soon |
 | **Testimonials** | Client reviews & feedback               | 🚧 Coming Soon |
@@ -156,16 +157,24 @@ http://localhost:8000/api/v1
 #### Principles Module
 
 ```http
-GET    /api/v1/principles          # Get all principles
-GET    /api/v1/principles/{id}     # Get single principle
-GET    /api/v1/principles/stats    # Get statistics
+GET    /api/principles             # Get all principles
+GET    /api/principles/{id}        # Get single principle
+GET    /api/principles/stats       # Get statistics
 ```
 
 #### Team Module
 
 ```http
-GET    /api/v1/teams               # Get all team members
-GET    /api/v1/teams/{id}          # Get single team member
+GET    /api/team                   # Get all team members
+GET    /api/team/{id}              # Get single team member
+GET    /api/team/stats/overview    # Get statistics
+```
+
+#### Awards Module
+
+```http
+GET    /api/awards                 # Get all active awards
+GET    /api/awards/featured        # Get featured awards only
 ```
 
 ### Response Format
@@ -187,6 +196,7 @@ GET    /api/v1/teams/{id}          # Get single team member
 
 -   [PRINCIPLE_API_DOCUMENTATION.md](PRINCIPLE_API_DOCUMENTATION.md)
 -   [TEAM_API_DOCUMENTATION.md](TEAM_API_DOCUMENTATION.md)
+-   [AWARD_MODULE_DOCUMENTATION.md](AWARD_MODULE_DOCUMENTATION.md)
 
 ## 📁 Project Structure
 
@@ -238,6 +248,22 @@ Manage team members and organizational structure.
 -   Bio and description
 
 📖 [Full Documentation](TEAM_MODULE_ARCHITECTURE.md)
+
+### 3. Awards Module
+
+Manage company awards and achievements.
+
+**Features:**
+
+-   Complete CRUD with Filament
+-   Drag-and-drop reordering
+-   Featured awards highlighting
+-   Status management (active/inactive)
+-   Dashboard widgets with statistics
+-   Public API with caching (1 hour TTL)
+-   Comprehensive test suite
+
+📖 [Full Documentation](AWARD_MODULE_DOCUMENTATION.md) | [Quick Reference](AWARD_QUICK_REFERENCE.md) | [Setup Guide](AWARD_SETUP.md)
 
 ## 💻 Development
 
